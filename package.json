@@ -14,7 +14,6 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "gulp-util": "^3.0.8",
     "istextorbinary": "^2.1.0",
     "readable-stream": "^2.2.9",
     "replacestream": "^4.0.2"
