@@ -2,11 +2,16 @@
 rewrite path as absolute or relative
 路径处理为绝对路径或相对路径
 
-# usage
+# Install
 
-~~~
+```
+$ npm install --save-dev gulp-html-path
+```
+# Usage
+
+```js
 var gulp = require('gulp');
-var gulpHtmlPath = require('gulp');
+var gulpHtmlPath = require('gulp-html-path');
 
 var srcHtml = '**/*.html';
 var buildPath = 'dist';
@@ -16,7 +21,7 @@ gulp.task('replaceUrl',function(){
     .pipe(gulpHtmlPath({base: './', mode: 'relative'}))
     .pipe(gulp.dest(buildPath))
 });
-~~~
+```
 
 # API
 gulpHtmlPath(options)
