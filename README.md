@@ -1,5 +1,6 @@
 # gulp-html-path
-rewrite path in html or others. 路径处理。
+rewrite path as absolute or relative
+路径处理为绝对路径或相对路径
 
 # usage
 
@@ -23,3 +24,10 @@ gulpHtmlPath(options)
 - `base`: base path of project (default: process.cwd())
 - `mode`: build path mode ['absolute'|'relative'] (default: 'absolute')
 - `isLog`: show detail logs (default: false)
+
+# API
+gulpHtmlPath(options)
+## options
+- `base`: 项目根目录 (默认: process.cwd())
+- `mode`: 生成路径模式 ['absolute'|'relative'] (默认: 'absolute')
+- `isLog`: 是否显示更多详细日志 (默认: false)
