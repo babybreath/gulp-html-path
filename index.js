@@ -1,7 +1,6 @@
 'use strict';
 
 var path = require('path');
-var gutil = require('gulp-util');
 var Transform = require('readable-stream/transform');
 var rs = require('replacestream');
 var istextorbinary = require('istextorbinary');
@@ -16,12 +15,13 @@ module.exports = function(options) {
     var base;
     options = options || {};
     if(options.hasOwnProperty('base')){
-        base = options.base;
+        base = path.join(process.cwd(), options.base);
     }else{
         base = process.cwd();
     }
+    var buildPathMode = options.mode || 'absolute';
     console.log('\nbase => ' + base);
-    var isLog = options.log || true;
+    var isLog = options.log || false;
 
     function log(msg){
         isLog && console.log(msg);
@@ -41,7 +41,7 @@ module.exports = function(options) {
                 }
 
                 if (file.isBuffer()) {
-                    log('\nchecking file...' + file.history[0]);
+                    console.log('\nchecking file...' + file.history[0]);
                     var fileContent = file.contents.toString();
                     var filePath = path.dirname(file.history[0]);
                     log('filePath =>' + filePath)
@@ -49,18 +49,25 @@ module.exports = function(options) {
                     fileContent = fileContent.replace(REG_HTML, function(matchString){
                         MATCHED++;
                         var url = matchString.replace(REG_SUB, '');
-                        log(matchString + ' => ' + url);
+                        log('\n' + matchString + ' => ' + url);
                         var absoluteUrl;
                         if(url.indexOf('/') === 0){
                             absoluteUrl = path.join(base, url);
                         }else{
-                            absoluteUrl = path.resolve(base, url);
+                            absoluteUrl = path.resolve(base, filePath, url);
                         }
                         log('absoluteUrl => ' + absoluteUrl);
                         var relativeUrl = path.relative(filePath, absoluteUrl);
                         log('ralvativeUrl => ' + relativeUrl);
-                        var result = matchString.split(url).join(relativeUrl);
-                        log(matchString + ' => ' + result);
+                        var absoluteUrlInHtml = absoluteUrl.replace(base, '');
+                        log('absoluteUrlInHtml => ' + absoluteUrlInHtml);
+                        var result;
+                        if(options.mode == 'relative'){
+                            result = matchString.split(url).join(relativeUrl);
+                        }else{
+                            result = matchString.split(url).join(absoluteUrlInHtml);
+                        }
+                        console.log('result: ' + matchString + ' => ' + result);
                         REPLACED++;
                         return result;
                     });
