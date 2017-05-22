@@ -21,4 +21,5 @@ gulp.task('replaceUrl',function(){
 gulpHtmlPath(options)
 ## options
 - `base`: base path of project (default: process.cwd())
-- `mode`: build path mode ['absolute'|'relative']
+- `mode`: build path mode ['absolute'|'relative'] (default: absolute)
+- `isLog`: show detail logs (default: false)
